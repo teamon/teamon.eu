@@ -5,7 +5,7 @@ class Default < Application
   def index
     @links = {
       '/klp' => 'KLP Printer',
-      '/dropbox' => 'Dropbox'
+      '/fizyka' => 'Fizyka'
     }
     render
   end
@@ -34,8 +34,7 @@ class Default < Application
       render
     end
   end
-  
-  
+
   
   def forms
     Marshal.load(File.read('form_1228610949_0')).inspect
@@ -102,6 +101,29 @@ Dane kontaktowe
 
     render :layout => "form"
   end
+  end
+  
+  
+  def fizyka
+    @links = files("lib/fizyka")
+    render
+  end
+  
+  protected 
+  
+  def files(path)
+    html = []
+    Dir["#{path}/*"].each do |path|
+      unless File.directory?(path)
+        html << "<li><a href=\"#{path}\">#{File.basename(path)}</a></li>"
+      else
+        html << "<li>#{File.basename(path)}<ul>"
+        html << files(path)
+        html << "</ul></li>"
+      end
+    end
+    
+    html.join
   end
   
 end
