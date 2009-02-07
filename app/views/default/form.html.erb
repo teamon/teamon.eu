@@ -1,0 +1,20 @@
+<form method="post">
+
+<% c = 0; @form.each do |f| %>
+<fieldset>
+  <h2><%= f.first %></h2>
+  <% if a = f[1,100] %>
+    <% a.each do |q| %>
+      <div>
+        <label for="field_<%= c+=1 %>"><%= q %></label>
+        <textarea id="field_<%= c %>" name="field_<%= c %>"></textarea>
+      </div>
+    <% end %>
+  <% end %>
+  
+</fieldset>
+<% end %>
+
+
+<input type="submit" value="Wyślij" />
+</form>
