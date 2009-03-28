@@ -17,13 +17,14 @@ class Klp
   end
   
   def parse_content(body)
-    body[%r[</h1>(.+)strona: &nbsp;&nbsp;]um, 1].gsub(/\[b\](.+?)\[\/b\]/m, '<strong>\1</strong>').gsub(/\[c\](.+?)\[\/c\]/m, '<blockquote>\1</blockquote>')
+    body = body[%r[</h1>(.+)strona: &nbsp;&nbsp;]um, 1] || body[%r[</h1>(.+)<a(.+)drukuj]um, 1]
+    body.gsub(/\[b\](.+?)\[\/b\]/m, '<strong>\1</strong>').gsub(/\[c\](.+?)\[\/c\]/m, '<blockquote>\1</blockquote>')
   end
   
   def join
     page = fetch_page(1)
     @title = page[%r[<h1>(.+?)</h1>], 1]
-    pages_count = page.scan(%r[<a href=\?akcja=druk&ida=\d+&strona=(\d+)>]u).flatten.map {|e| e.to_i}.max
+    pages_count = page.scan(%r[<a href=\?akcja=druk&ida=\d+&strona=(\d+)>]u).flatten.map {|e| e.to_i}.max || 1
     @content << parse_content(page)
     if pages_count > 1
       (2..pages_count).each do |p|
