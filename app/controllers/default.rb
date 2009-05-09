@@ -4,6 +4,7 @@ class Default < Application
   # goes to the client...
   def index
     @links = {
+      'http://blog.teamon.eu' => 'Blog',
       '/klp' => 'KLP Printer',
       '/fizyka' => 'Fizyka'
     }
