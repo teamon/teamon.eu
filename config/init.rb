@@ -13,7 +13,7 @@ Merb::Config.use do |c|
   
   # cookie session store configuration
   c[:session_secret_key]  = 'a38072806da7556944b25ede53089ec2999644d4'  # required for cookie session store
-  c[:session_id_key] = '_drakor_session_id' # cookie session id key, defaults to "_session_id"
+  c[:session_id_key] = '_teamon_eu_session_id' # cookie session id key, defaults to "_session_id"
 end
  
 Merb::BootLoader.before_app_loads do
