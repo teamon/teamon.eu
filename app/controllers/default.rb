@@ -5,8 +5,6 @@ class Default < Application
   end
   
   def klp
-    require "lib/klp"
-    
     if params[:url] != "" and !params[:url].nil?
       begin
     <<-EOS
@@ -17,7 +15,7 @@ class Default < Application
           <title></title>
         </head>
         <body>
-          #{Klp.new(params[:url]).join}
+          #{Parser.parse(params[:url])}
         </body>
       </html>
     EOS
