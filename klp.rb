@@ -3,21 +3,21 @@ require 'iconv'
 
 class InvalidURL < ArgumentError; end
 
-module Parser
-  
+module KLPPrinter
+
   class KLP
     def initialize(url)
       match = url.match(%r[http://(.+).klp.pl/a-(\d+).html])
       raise InvalidURL unless match
-  
+
       @name = match[1]
       @id = match[2]
       @content = []
-      
+
       @http = Net::HTTP.new('klp.pl')
     end
-    
-    
+
+
     def fetch_page(page)
       resp, body = @http.get "/doda.php?akcja=druk&ida=#{@id}&strona=#{page}"
       Iconv.iconv('utf-8', 'iso-8859-2', body).first
@@ -42,20 +42,20 @@ module Parser
       @title + "<br/><br/><p>" + @content.join("</p><p>") + "</p>"
     end
   end
-  
+
   class OstatniDzwonek
     def initialize(url)            
       match = url.match(%r[http://(.+).ostatnidzwonek.pl/a-(\d+).html])
       raise InvalidURL unless match
-      
+
       @name = match[1]
       @id = match[2]
       @content = []
-      
+
       @http = Net::HTTP.new("#{@name}.ostatnidzwonek.pl")
     end
-    
-    
+
+
     def fetch_page(page)
       resp, body = @http.get "/a-#{@id}#{page == 1 ? "" : "-#{page}"}.html"
       Iconv.iconv('utf-8', 'iso-8859-2', body).first
@@ -83,15 +83,15 @@ module Parser
       @title + "<br/><br/><p>" + @content.join("</p><p>") + "</p>"
     end
   end
-  
+
   class << self
     def parse(url)
-      
+
       parser = case url
       when /klp.pl/ then KLP
       when /ostatnidzwonek.pl/ then OstatniDzwonek
       end
-      
+
       if parser
         parser.new(url).join
       else
@@ -99,8 +99,4 @@ module Parser
       end
     end
   end
-end
-
-if $0 == __FILE__
-  puts Parser.parse(ARGV[0])
 end
