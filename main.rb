@@ -5,6 +5,9 @@ require 'erb'
 require 'jarbuilder'
 require 'klp'
 
+set :environment, :production
+set :port, 3031
+
 get '/' do
   erb :index
 end
