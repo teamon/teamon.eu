@@ -34,4 +34,5 @@ end
 
 get '/jarbuilder' do
   JarBuilder.new.call(params)
+  "done"
 end
