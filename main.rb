@@ -35,7 +35,7 @@ get '/klp' do
   end
 end
 
-get '/jarbuilder' do
+post '/jarbuilder' do
   JarBuilder.new.call(params)
   "done"
 end
