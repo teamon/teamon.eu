@@ -27,7 +27,7 @@ class Grunwald
     def offblast!
       out = []
       time = Time.now
-      hm = "#{time.hour}#{"%02d" % time.min}".to_i
+      hm = "#{time.hour}#{"%02d" % (time.min)}".to_i
       r = ['0L_16_2.html', '1_9_1.html'].map_with_index {|a, l| rozklad(a)[
           case time.wday
           when 0 then "Niedziela"
@@ -41,12 +41,18 @@ class Grunwald
         }.flatten.select{|e| !e.nil? && e >= hm}.map {|e| [e,l]}
       }.inject {|s,a| s + a}.sort{|a,b| a[0] <=> b[0]}[0, 5]
       
-      out << "<h2>ZAPIERDALAJ NA #{r.first[1]}</h2>"
-      out << "<ul>"
-      r.each do |h, l|
-        out << "<li>#{h/100}:#{"%02d" % (h%100)} [#{l}]</li>"
-      end
+      best = r.find{|e| e[0] >= hm+5}
+      
+      out << "<div style='text-align: center'>"
+      out << "<h2>JEST #{time.hour}:#{"%02d" % (time.min)} <br/>
+                  ZAPIERDALAJ NA <span style='text-decoration: underline'>#{best[1]}</span></h2>"
+      out << "<ul style='padding: 0'>"
+      out << r.map {|h, l| 
+        bold = best == [h,l] ? "font-weight: bold;" : ''
+        "<li style='list-style: none; #{bold}'>#{h/100}:#{"%02d" % (h%100)} [#{l}]</li>" 
+      }.join("\n")
       out << "</ul>"
+      out << "</div>"
       out.join("\n")
     end
     
