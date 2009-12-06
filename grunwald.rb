@@ -43,16 +43,14 @@ class Grunwald
       
       best = r.find{|e| e[0] >= hm+5}
       
-      out << "<div style='text-align: center'>"
       out << "<h2>JEST #{time.hour}:#{"%02d" % (time.min)} <br/>
-                  ZAPIERDALAJ NA <span style='text-decoration: underline'>#{best[1]}</span></h2>"
-      out << "<ul style='padding: 0'>"
+                  ZAPIERDALAJ NA <span>#{best[1]}</span></h2>"
+      out << "<ul>"
       out << r.map {|h, l| 
-        bold = best == [h,l] ? "font-weight: bold;" : ''
-        "<li style='list-style: none; #{bold}'>#{h/100}:#{"%02d" % (h%100)} [#{l}]</li>" 
+        li = "<li>#{h/100}:#{"%02d" % (h%100)} [#{l}]</li>"
+        best == [h,l] ? "<span>#{li}</span>" : li
       }.join("\n")
       out << "</ul>"
-      out << "</div>"
       out.join("\n")
     end
     
