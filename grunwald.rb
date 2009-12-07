@@ -41,7 +41,7 @@ class Grunwald
         }.flatten.select{|e| !e.nil? && e >= hm}.map {|e| [e,l]}
       }.inject {|s,a| s + a}.sort{|a,b| a[0] <=> b[0]}[0, 5]
       
-      best = r.find{|e| e[0] >= hm+5}
+      best = r.find{|e| e[0] >= hm+2}
       
       out << "<h2>JEST #{time.hour}:#{"%02d" % (time.min)} <br/>
                   ZAPIERDALAJ NA <span>#{best[1]}</span></h2>"
