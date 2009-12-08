@@ -3,8 +3,6 @@ require 'sinatra'
 require 'erb'
 
 require 'jarbuilder'
-require 'klp'
-require 'grunwald'
 
 set :environment, :production
 set :port, 3031
